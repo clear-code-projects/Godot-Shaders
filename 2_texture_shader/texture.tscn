@@ -1,0 +1,47 @@
+[gd_scene load_steps=11 format=3 uid="uid://1ehrjw661woe"]
+
+[ext_resource type="Shader" path="res://texture_code.gdshader" id="1_a0jro"]
+[ext_resource type="Texture2D" uid="uid://cw0v0t8imxkha" path="res://icon.svg" id="1_rjhah"]
+[ext_resource type="Texture2D" uid="uid://bybv826mojwe3" path="res://pentagon.png" id="2_8bk5i"]
+[ext_resource type="Shader" uid="uid://syq30fkajk4h" path="res://texture_visual.tres" id="4_7q5lo"]
+
+[sub_resource type="Gradient" id="Gradient_rofhv"]
+colors = PackedColorArray(0.866667, 0.0980392, 0, 1, 1, 0.835294, 0.12549, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hm2bn"]
+gradient = SubResource("Gradient_rofhv")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.760684, 0.205128)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_y2vvl"]
+fractal_lacunarity = 0.845
+fractal_gain = -0.025
+fractal_weighted_strength = 0.74
+cellular_jitter = 0.73
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pgnqm"]
+noise = SubResource("FastNoiseLite_y2vvl")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jm0qd"]
+shader = ExtResource("1_a0jro")
+shader_parameter/gradient_size = 0.352
+shader_parameter/mask_texture = ExtResource("2_8bk5i")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_pgnqm")
+shader_parameter/gradient_texture = SubResource("GradientTexture2D_hm2bn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a5dqj"]
+shader = ExtResource("4_7q5lo")
+shader_parameter/BubbleSize = 0.287
+shader_parameter/mask_texture = ExtResource("2_8bk5i")
+
+[node name="Texture" type="Node2D"]
+
+[node name="TextureCode" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_jm0qd")
+texture = ExtResource("1_rjhah")
+
+[node name="TextureVisual" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_a5dqj")
+position = Vector2(142, -7)
+texture = ExtResource("1_rjhah")
